@@ -40,6 +40,15 @@
 ------------------------------
 
 ## Changelog:  
+**2018-12-10**  
+v1.2  
+* поддержка WP-Recall от v16.17.0  
+* поддержка Gutenberg v4.6.1  
+* поддержка WordPress 5.0
+- Внимание!! в вордпресс 5.0 баг с транслитом. Он в автосохранении не работает. А работает когда: Вы создаете запись - сохраняете ее в черновик или публикуете - транслит отрабатывает.
+команда ВП этот баг исправит в версии 5.0.1
+
+
 **2018-05-19**  
 v1.1  
 * поддержка WP-Recall от v16.15.2 (именно там появились соответствующие фильтры, позволившие расширить таблицу символов транслитерации)  
@@ -61,7 +70,7 @@ v1.0
 * При возникновении проблемы, создайте соотвествующую тему на [форуме поддержки](https://codeseller.ru/forum/product-15871/) товара  
 * Если вам нужна доработка под ваши нужды - вы можете обратиться ко мне в [ЛС](https://codeseller.ru/author/otshelnik-fm/?tab=chat) с техзаданием на платную доработку.  
 
-Полный список моих работ опубликован на [моём сайте](https://otshelnik-fm.ru/all-my-addons-for-wp-recall/) и в каталоге магазина [CodeSeller.ru](https://codeseller.ru/author/otshelnik-fm/?tab=publics&subtab=type-products)  
+Полный список моих работ опубликован на [моём сайте](https://otshelnik-fm.ru/all-my-addons-for-wp-recall/?utm_source=free-addons&utm_medium=addon-description&utm_campaign=otfm-rus-to-lat&utm_content=codeseller.ru&utm_term=all-my-addons) и в каталоге магазина [CodeSeller.ru](https://codeseller.ru/author/otshelnik-fm/?tab=publics&subtab=type-products)  
 
 ------------------------------
 

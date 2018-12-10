@@ -1,7 +1,7 @@
 Name: OTFM Rus To Lat;
-Version: 1.1;
-Support Core: 16.15.2;
+Version: 1.2;
+Support Core: 16.17.0;
 Description: Выполняет транслит заголовков записей, рубрик, меток и загружаемых файлов;
 Author: Владимир Дружаев (Otshelnik-Fm);
-Author URI: https://otshelnik-fm.ru/;
+Author URI: https://otshelnik-fm.ru/?utm_source=free-addons&utm_medium=addon-manager&utm_campaign=otfm-rus-to-lat&utm_content=not-domain&utm_term=home-page;
 Add-on URI: https://codeseller.ru/products/otfm-rus-to-lat/;
