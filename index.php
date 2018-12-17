@@ -21,11 +21,14 @@
  *          - полезно для других языковых групп
  */
 
+
 if (!defined('ABSPATH')) exit;
 
+
 // дополнительные символы транслитерации
-function otfm_rtl_dop_simbols(){
-    $dop_allowed = array(
+function otfm_rtl_character_table_extension(){
+    $ext_allowed = array(
+        // symb
         "№"=>"N","#"=>"","$"=>"","%"=>"","^"=>"","&"=>"",
         //ukr
         "Ї"=>"Yi","ї"=>"i","Ґ"=>"G","ґ"=>"g",
@@ -33,9 +36,9 @@ function otfm_rtl_dop_simbols(){
         "Ә"=>"A","Ғ"=>"G","Қ"=>"K","Ң"=>"N","Ө"=>"O","Ұ"=>"U","Ү"=>"U","H"=>"H",
         "ә"=>"a","ғ"=>"g","қ"=>"k","ң"=>"n","ө"=>"o", "ұ"=>"u","h"=>"h"
     );
-    $dop_simbols = apply_filters('otfm_dop_symbols', $dop_allowed);
+    $all_simbols = apply_filters('otfm_dop_symbols', $ext_allowed);
 
-    return $dop_simbols;
+    return $all_simbols;
 }
 
 
@@ -50,31 +53,41 @@ function otfm_rtl_settings(){
 add_action('admin_footer', 'otfm_rtl_settings');
 
 
-
 // дополним таблицу транслита реколл
 // применимо: для вкладок, метакеев в полях профиля и форме публикации и заголовке - урле - прайм форума)
 function otfm_rtl_transliteration_recall_add_symbols($simbols){
-    $dop_simbols = otfm_rtl_dop_simbols();
-    $merged_symbols = array_merge($simbols, $dop_simbols);
+    $ext_simbols = otfm_rtl_character_table_extension();
+    $all_simbols = array_merge($simbols, $ext_simbols);
 
-    return $merged_symbols;
+    return $all_simbols;
 }
 add_filter('rcl_sanitize_gost', 'otfm_rtl_transliteration_recall_add_symbols');
 add_filter('rcl_sanitize_iso', 'otfm_rtl_transliteration_recall_add_symbols');
 
 
 // транслит заголовков ВП
-add_filter('sanitize_title', 'rcl_sanitize_string', 9);
+function otfm_rtl_transliteration_title($title, $raw_title, $context){
+    if($context === 'query') return $title;
+
+    $new_name = otfm_rtl_process($title);
+
+    return $new_name;
+}
+add_filter('sanitize_title', 'otfm_rtl_transliteration_title', 9, 3);
 
 
 // транслит файлов ВП
 function otfm_rtl_transliteration_file_name($filename){
-    $dop_simbols = otfm_rtl_dop_simbols();
+    $new_filename = otfm_rtl_process($filename);
 
-    $first_time = strtr($filename, $dop_simbols);                           // транслит дополнительных символов
-    $translite = rcl_sanitize_string($first_time, false);                   // реколл транслит остального
-    $fin_filename = preg_replace("/[^A-Za-z0-9_\-\.]/", '-', $translite);   // разрешенные символы (иероглифы и прочее не пройдет)
-
-    return $fin_filename;
+    return $new_filename;
 }
 add_filter('sanitize_file_name', 'otfm_rtl_transliteration_file_name');
+
+
+function otfm_rtl_process($need_translit){
+    $transliteration = rcl_sanitize_string($need_translit, false);                      // реколл транслит остального
+    $fin_transliteration = preg_replace("/[^A-Za-z0-9_\-\.]/", '-', $transliteration);  // разрешенные символы (иероглифы и прочее не пройдет)
+
+    return $fin_transliteration;
+}
