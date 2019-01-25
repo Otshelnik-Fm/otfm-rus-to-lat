@@ -1,11 +1,13 @@
 <?php
 
+if ( !defined( 'ABSPATH' ) ) {
+	exit;
+}
 /**
  *  ╔═╗╔╦╗╔═╗╔╦╗
  *  ║ ║ ║ ╠╣ ║║║ https://otshelnik-fm.ru
  *  ╚═╝ ╩ ╚  ╩ ╩
- */
-/**
+ *
  *      Доп заменяет ВП транслит:
  *          заголовков (записей, меток, рубрик)
  *          имена загружаемых файлов - в транслит
@@ -17,9 +19,6 @@
  *      Дополнение для реколл дает фильтр - можно расширить таблицу символов и их транслит
  *          - полезно для других языковых групп
  */
-if ( !defined( 'ABSPATH' ) ) {
-	exit;
-}
 // дополнительные символы транслитерации
 function otfm_rtl_character_table_extension() {
 	$ext_allowed = array(
@@ -79,8 +78,8 @@ function otfm_rtl_transliteration_file_name( $filename ) {
 
 add_filter( 'sanitize_file_name', 'otfm_rtl_transliteration_file_name' );
 function otfm_rtl_process( $need_translit ) {
-	$transliteration	 = rcl_sanitize_string( $need_translit, false ); // реколл транслит остального
-	$fin_transliteration = preg_replace( "/[^A-Za-z0-9_\-\.]/", '-', $transliteration );  // разрешенные символы (иероглифы и прочее не пройдет)
+	$transliteration	 = rcl_sanitize_string( $need_translit, false ); // реколл транслит остального.
+	$fin_transliteration = preg_replace( '/[^A-Za-z0-9_\-\.]/', '-', $transliteration );  // разрешенные символы (иероглифы и прочее не пройдет).
 
 	return $fin_transliteration;
 }
