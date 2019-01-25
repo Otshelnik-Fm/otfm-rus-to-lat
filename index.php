@@ -1,14 +1,11 @@
 <?php
 
-/*
-
-  ╔═╗╔╦╗╔═╗╔╦╗
-  ║ ║ ║ ╠╣ ║║║ https://otshelnik-fm.ru
-  ╚═╝ ╩ ╚  ╩ ╩
-
+/**
+ *  ╔═╗╔╦╗╔═╗╔╦╗
+ *  ║ ║ ║ ╠╣ ║║║ https://otshelnik-fm.ru
+ *  ╚═╝ ╩ ╚  ╩ ╩
  */
-
-/*
+/**
  *      Доп заменяет ВП транслит:
  *          заголовков (записей, меток, рубрик)
  *          имена загружаемых файлов - в транслит
@@ -20,10 +17,9 @@
  *      Дополнение для реколл дает фильтр - можно расширить таблицу символов и их транслит
  *          - полезно для других языковых групп
  */
-
-
-if ( !defined( 'ABSPATH' ) )
+if ( !defined( 'ABSPATH' ) ) {
 	exit;
+}
 // дополнительные символы транслитерации
 function otfm_rtl_character_table_extension() {
 	$ext_allowed = array(
@@ -40,6 +36,7 @@ function otfm_rtl_character_table_extension() {
 	return $all_simbols;
 }
 
+add_action( 'admin_footer', 'otfm_rtl_settings' );
 function otfm_rtl_settings() {
 	$chr_page = get_current_screen();
 
@@ -51,7 +48,6 @@ function otfm_rtl_settings() {
 	require_once 'admin/for-settings.php';
 }
 
-add_action( 'admin_footer', 'otfm_rtl_settings' );
 // дополним таблицу транслита реколл
 // применимо: для вкладок, метакеев в полях профиля и форме публикации и заголовке - урле - прайм форума)
 function otfm_rtl_transliteration_recall_add_symbols( $simbols ) {
@@ -83,7 +79,7 @@ function otfm_rtl_transliteration_file_name( $filename ) {
 
 add_filter( 'sanitize_file_name', 'otfm_rtl_transliteration_file_name' );
 function otfm_rtl_process( $need_translit ) {
-	$transliteration	 = rcl_sanitize_string( $need_translit, false );	   // реколл транслит остального
+	$transliteration	 = rcl_sanitize_string( $need_translit, false ); // реколл транслит остального
 	$fin_transliteration = preg_replace( "/[^A-Za-z0-9_\-\.]/", '-', $transliteration );  // разрешенные символы (иероглифы и прочее не пройдет)
 
 	return $fin_transliteration;
