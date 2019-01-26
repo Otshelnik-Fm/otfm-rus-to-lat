@@ -3,7 +3,8 @@
 if ( !defined( 'ABSPATH' ) ) {
 	exit;
 }
-/**
+
+/*
  *  ╔═╗╔╦╗╔═╗╔╦╗
  *  ║ ║ ║ ╠╣ ║║║ https://otshelnik-fm.ru
  *  ╚═╝ ╩ ╚  ╩ ╩
@@ -19,6 +20,10 @@ if ( !defined( 'ABSPATH' ) ) {
  *      Дополнение для реколл дает фильтр - можно расширить таблицу символов и их транслит
  *          - полезно для других языковых групп
  */
+?>
+
+<?php
+
 // дополнительные символы транслитерации
 function otfm_rtl_character_table_extension() {
 	$ext_allowed = array(
@@ -49,6 +54,8 @@ function otfm_rtl_settings() {
 
 // дополним таблицу транслита реколл
 // применимо: для вкладок, метакеев в полях профиля и форме публикации и заголовке - урле - прайм форума)
+add_filter( 'rcl_sanitize_gost', 'otfm_rtl_transliteration_recall_add_symbols' );
+add_filter( 'rcl_sanitize_iso', 'otfm_rtl_transliteration_recall_add_symbols' );
 function otfm_rtl_transliteration_recall_add_symbols( $simbols ) {
 	$ext_simbols = otfm_rtl_character_table_extension();
 	$all_simbols = array_merge( $simbols, $ext_simbols );
@@ -56,9 +63,8 @@ function otfm_rtl_transliteration_recall_add_symbols( $simbols ) {
 	return $all_simbols;
 }
 
-add_filter( 'rcl_sanitize_gost', 'otfm_rtl_transliteration_recall_add_symbols' );
-add_filter( 'rcl_sanitize_iso', 'otfm_rtl_transliteration_recall_add_symbols' );
 // транслит заголовков ВП
+add_filter( 'sanitize_title', 'otfm_rtl_transliteration_title', 9, 3 );
 function otfm_rtl_transliteration_title( $title, $raw_title, $context ) {
 	if ( $context === 'query' )
 		return $title;
@@ -68,7 +74,6 @@ function otfm_rtl_transliteration_title( $title, $raw_title, $context ) {
 	return $new_name;
 }
 
-add_filter( 'sanitize_title', 'otfm_rtl_transliteration_title', 9, 3 );
 // транслит файлов ВП
 function otfm_rtl_transliteration_file_name( $filename ) {
 	$new_filename = otfm_rtl_process( $filename );
@@ -78,8 +83,11 @@ function otfm_rtl_transliteration_file_name( $filename ) {
 
 add_filter( 'sanitize_file_name', 'otfm_rtl_transliteration_file_name' );
 function otfm_rtl_process( $need_translit ) {
-	$transliteration	 = rcl_sanitize_string( $need_translit, false ); // реколл транслит остального.
-	$fin_transliteration = preg_replace( '/[^A-Za-z0-9_\-\.]/', '-', $transliteration );  // разрешенные символы (иероглифы и прочее не пройдет).
+	// реколл транслит остального.
+	$transliteration = rcl_sanitize_string( $need_translit, false );
+
+	// разрешенные символы (иероглифы и прочее не пройдет).
+	$fin_transliteration = preg_replace( '/[^A-Za-z0-9_\-\.]/', '-', $transliteration );
 
 	return $fin_transliteration;
 }
