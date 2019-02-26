@@ -23,6 +23,11 @@
 
 == Changelog ==
 = 2019-02-26 =
+v1.3.2
+* fix "cannot modify header information" warning
+
+
+= 2019-02-26 =
 v1.3.1
 * Небольшие правки на странице настроек 
 

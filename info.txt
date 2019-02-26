@@ -1,5 +1,5 @@
 Name: OTFM Rus To Lat;
-Version: 1.3.1;
+Version: 1.3.2;
 Support Core: 16.17.0;
 Description: Выполняет транслит заголовков записей, рубрик, меток и загружаемых файлов;
 Author: Владимир Дружаев (Otshelnik-Fm);
